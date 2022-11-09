@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "479774717746",
+    "project_id": "prasadam-9c71e",
+    "storage_bucket": "prasadam-9c71e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479774717746:android:2eb5c5ed9f5daeb0c1c92b",
+        "android_client_info": {
+          "package_name": "com.example.prasadam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479774717746-f49sbmt0492ssv65rpf25uf0c0tvsvv1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_8qtWuA4KJUhCEVDFw951LT3os1eauB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479774717746-f49sbmt0492ssv65rpf25uf0c0tvsvv1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "479774717746-fsjnea8o3uov5fu23bgsn2h25qpt2v6b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.prasadam"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
