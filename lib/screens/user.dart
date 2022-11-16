@@ -10,7 +10,7 @@ class UserPage extends StatelessWidget {
     appBar: AppBar(
       title: const Text('Sarah Abs'),
     ),
-    body: Image.network(
+    body: Image.asset(
       'assets/images/login.png'
     ),
   );

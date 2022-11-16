@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:prasadam/screens/home.dart';
 import 'package:prasadam/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:prasadam/screens/user.dart';
@@ -11,6 +12,7 @@ import 'package:prasadam/screens/notifications.dart';
 import 'package:prasadam/screens/contact_us.dart';
 
 
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -19,12 +21,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  int currentTab = 0;
+    final List<Widget> screens = [
+      HomePage(),
+      FavouritesPage(),
+      SubscriptionsPage(),
+      UserPage()
+    ];
+
+  final PageStorageBucket bucket = PageStorageBucket();
+  Widget currentScreen = HomePage();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: NavigationDrawer(),
       appBar: AppBar(
-        title: const Text('Homescreen'),
+        title: const Text(
+          'Homescreen',
+          style: TextStyle(
+            color: Colors.black
+          )
+        ),
         backgroundColor: Colors.lightBlue,
         actions: [
           IconButton(
@@ -37,7 +56,132 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ],
-      )
+        flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/indian_food_d2.jpg'),
+            fit: BoxFit.cover,
+            )
+        ),
+      ),
+      ),
+      body: PageStorage(
+        child: currentScreen,
+        bucket: bucket,
+        ),
+        bottomNavigationBar: BottomAppBar(
+          shape: CircularNotchedRectangle(),
+          notchMargin: 10,
+          child: Container(
+            height: 60,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MaterialButton(
+                      minWidth: 40,
+                      onPressed: () {
+                        setState((){
+                          currentScreen = HomePage();
+                          currentTab = 0;
+
+                        });
+
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.home,
+                            color: currentTab == 0? Colors.blue : Colors.grey,
+                            ),
+                            Text(
+                              'Home',
+                              style: TextStyle(color: currentTab == 0? Colors.blue : Colors.grey)
+                            )
+                        ] 
+                      ,)
+                      ),
+                      MaterialButton(
+                      minWidth: 40,
+                      onPressed: () {
+                        setState((){
+                          currentScreen = FavouritesPage();
+                          currentTab = 1;
+
+                        });
+
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.favorite_border_outlined,
+                            color: currentTab == 1? Colors.blue : Colors.grey,
+                            ),
+                            Text(
+                              'Favourites',
+                              style: TextStyle(color: currentTab == 1? Colors.blue : Colors.grey)
+                            )
+                        ] 
+                      ,)
+                      ),
+                      MaterialButton(
+                      minWidth: 40,
+                      onPressed: () {
+                        setState((){
+                          currentScreen = SubscriptionsPage();
+                          currentTab = 2;
+
+                        });
+
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.subscriptions,
+                            color: currentTab == 2? Colors.blue : Colors.grey,
+                            ),
+                            Text(
+                              'Subscription',
+                              style: TextStyle(color: currentTab == 2? Colors.blue : Colors.grey)
+                            )
+                        ] 
+                      ,)
+                      ),
+                      MaterialButton(
+                      minWidth: 40,
+                      onPressed: () {
+                        setState((){
+                          currentScreen = UserPage();
+                          currentTab = 3;
+
+                        });
+
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.person,
+                            color: currentTab == 3? Colors.blue : Colors.grey,
+                            ),
+                            Text(
+                              'Profile',
+                              style: TextStyle(color: currentTab == 3? Colors.blue : Colors.grey)
+                            )
+                        ] 
+                      ,)
+                      )
+                  ],
+                  )
+              ],
+              )
+          )
+        ),
     );
   }
 }
@@ -106,13 +250,13 @@ class NavigationDrawer extends StatelessWidget {
       children: const [
         CircleAvatar(
           radius: 52,
-          backgroundImage: NetworkImage(
-            'assets/images/login.png'
-          ),
+          // backgroundImage: AssetImage(
+          //   'assets/images/logo4.png'
+          // ),
         ),
         SizedBox(height: 12),
         Text(
-          'sarah@abs.com',
+          'prasadam@abs.com',
           style:TextStyle(fontSize: 16, color: Colors.amber)
         )
       ],) 
