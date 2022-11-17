@@ -7,11 +7,8 @@ class SubscriptionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavigationDrawer(),
-      appBar: AppBar(
-        title: const Text('Subscriptions'),
-        backgroundColor: Colors.lightBlue,
-      )
+      //drawer: NavigationDrawer(),
+      
     );
   }
 }

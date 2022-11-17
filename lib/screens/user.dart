@@ -7,11 +7,6 @@ class UserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Sarah Abs'),
-    ),
-    body: Image.asset(
-      'assets/images/login.png'
-    ),
+    
   );
 }

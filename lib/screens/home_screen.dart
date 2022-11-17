@@ -38,13 +38,15 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       drawer: NavigationDrawer(),
       appBar: AppBar(
-        title: const Text(
-          'Homescreen',
-          style: TextStyle(
-            color: Colors.black
-          )
-        ),
-        backgroundColor: Colors.lightBlue,
+        // title: const Text(
+        //   'Homescreen',
+        //   style: TextStyle(
+        //     color: Colors.black
+        //   )
+        // ),
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.transparent,
+        elevation: 2,
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -54,16 +56,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 delegate:MySearchDelegate(),
               );
             },
+            // color: Colors.black,
+          ),
+          IconButton(
+            icon: const Icon(Icons.notification_add),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+          builder:(context) => const NotificationsPage(),
+        ));
+            },
+            // color: Colors.black,
           ),
         ],
-        flexibleSpace: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/indian_food_d2.jpg'),
-            fit: BoxFit.cover,
-            )
-        ),
-      ),
+      //   flexibleSpace: Container(
+      //   decoration: const BoxDecoration(
+      //     image: DecorationImage(
+      //       image: AssetImage('assets/images/indian_food_d2.jpg'),
+      //       fit: BoxFit.cover,
+      //       )
+      //   ),
+      // ),
       ),
       body: PageStorage(
         child: currentScreen,
@@ -75,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Container(
             height: 60,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,11 +107,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Icon(
                             Icons.home,
-                            color: currentTab == 0? Colors.blue : Colors.grey,
+                            color: currentTab == 0? Colors.black : Colors.grey,
                             ),
                             Text(
                               'Home',
-                              style: TextStyle(color: currentTab == 0? Colors.blue : Colors.grey)
+                              style: TextStyle(color: currentTab == 0? Colors.black : Colors.grey)
                             )
                         ] 
                       ,)
@@ -118,12 +130,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.favorite_border_outlined,
-                            color: currentTab == 1? Colors.blue : Colors.grey,
+                            Icons.favorite_rounded,
+                            color: currentTab == 1? Colors.black : Colors.grey,
                             ),
                             Text(
                               'Favourites',
-                              style: TextStyle(color: currentTab == 1? Colors.blue : Colors.grey)
+                              style: TextStyle(color: currentTab == 1? Colors.black : Colors.grey)
                             )
                         ] 
                       ,)
@@ -143,11 +155,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Icon(
                             Icons.subscriptions,
-                            color: currentTab == 2? Colors.blue : Colors.grey,
+                            color: currentTab == 2? Colors.black : Colors.grey,
                             ),
                             Text(
                               'Subscription',
-                              style: TextStyle(color: currentTab == 2? Colors.blue : Colors.grey)
+                              style: TextStyle(color: currentTab == 2? Colors.black : Colors.grey)
                             )
                         ] 
                       ,)
@@ -167,11 +179,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Icon(
                             Icons.person,
-                            color: currentTab == 3? Colors.blue : Colors.grey,
+                            color: currentTab == 3? Colors.black : Colors.grey,
                             ),
                             Text(
                               'Profile',
-                              style: TextStyle(color: currentTab == 3? Colors.blue : Colors.grey)
+                              style: TextStyle(color: currentTab == 3? Colors.black : Colors.grey)
                             )
                         ] 
                       ,)
@@ -233,7 +245,8 @@ class NavigationDrawer extends StatelessWidget {
   );
 
   Widget buildHeader(BuildContext context) => Material(
-    color: Colors.blue.shade700,
+    color: Color.fromARGB(191, 237, 145, 7),
+    // elevation: 2,
     child: InkWell(
       onTap: () {
         Navigator.pop(context);
@@ -256,8 +269,8 @@ class NavigationDrawer extends StatelessWidget {
         ),
         SizedBox(height: 12),
         Text(
-          'prasadam@abs.com',
-          style:TextStyle(fontSize: 16, color: Colors.amber)
+          'prasadam@gmail.com',
+          style:TextStyle(fontSize: 16, color: Colors.black)
         )
       ],) 
   )
@@ -269,36 +282,36 @@ class NavigationDrawer extends StatelessWidget {
     child: Wrap(
       runSpacing: 16,
       children: [
-      ListTile(
-      leading: const Icon(Icons.home_outlined),
-      title: const Text('Home'),
-      onTap: () => {
-        Navigator.pop(context),
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const HomeScreen(),
-      )),
-      }
-    ),
-    ListTile(
-      leading: const Icon(Icons.favorite_border),
-      title: const Text('Favourites'),
-      onTap: () {
-        Navigator.pop(context);
-        Navigator.of(context).push(MaterialPageRoute(
-          builder:(context) => const FavouritesPage(),
-        ));
-      },
-    ),
-    ListTile(
-      leading: const Icon(Icons.subscriptions_outlined),
-      title: const Text('Subscription'),
-      onTap: () {
-        Navigator.pop(context);
-        Navigator.of(context).push(MaterialPageRoute(
-          builder:(context) => const SubscriptionsPage(),
-        ));
-      },
-    ),
+    //   ListTile(
+    //   leading: const Icon(Icons.home_outlined),
+    //   title: const Text('Home'),
+    //   onTap: () => {
+    //     Navigator.pop(context),
+    //   Navigator.of(context).push(MaterialPageRoute(
+    //     builder: (context) => const HomeScreen(),
+    //   )),
+    //   }
+    // ),
+    // ListTile(
+    //   leading: const Icon(Icons.favorite_border),
+    //   title: const Text('Favourites'),
+    //   onTap: () {
+    //     Navigator.pop(context);
+    //     Navigator.of(context).push(MaterialPageRoute(
+    //       builder:(context) => const FavouritesPage(),
+    //     ));
+    //   },
+    // ),
+    // ListTile(
+    //   leading: const Icon(Icons.subscriptions_outlined),
+    //   title: const Text('Subscription'),
+    //   onTap: () {
+    //     Navigator.pop(context);
+    //     Navigator.of(context).push(MaterialPageRoute(
+    //       builder:(context) => const SubscriptionsPage(),
+    //     ));
+    //   },
+    // ),
     ListTile(
       leading: const Icon(Icons.update),
       title: const Text('Daily Updates'),
@@ -309,17 +322,17 @@ class NavigationDrawer extends StatelessWidget {
         ));
       },
     ),
-    const Divider(color: Colors.black54),
-    ListTile(
-      leading: const Icon(Icons.notification_add),
-      title: const Text('Notifications'),
-      onTap: () {
-        Navigator.pop(context);
-        Navigator.of(context).push(MaterialPageRoute(
-          builder:(context) => const NotificationsPage(),
-        ));
-      },
-    ),
+    // const Divider(color: Colors.black54),
+    // ListTile(
+    //   leading: const Icon(Icons.notification_add),
+    //   title: const Text('Notifications'),
+    //   onTap: () {
+    //     Navigator.pop(context);
+    //     Navigator.of(context).push(MaterialPageRoute(
+    //       builder:(context) => const NotificationsPage(),
+    //     ));
+    //   },
+    // ),
     
     ListTile(
       leading: const Icon(Icons.contact_page),

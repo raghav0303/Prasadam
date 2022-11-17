@@ -7,11 +7,8 @@ class FavouritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavigationDrawer(),
-      appBar: AppBar(
-        title: const Text('Favourites'),
-        backgroundColor: Colors.lightBlue,
-      )
+      //drawer: NavigationDrawer(),
+      
     );
   }
 }
