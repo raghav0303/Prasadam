@@ -11,6 +11,8 @@ import 'package:prasadam/screens/daily_updates.dart';
 import 'package:prasadam/screens/notifications.dart';
 import 'package:prasadam/screens/contact_us.dart';
 
+import 'package:geolocator/geolocator.dart';
+
 
 
 class HomeScreen extends StatefulWidget {
@@ -21,6 +23,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  // final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+  // Position _currentPosition;
+  // String _currentAddress;
 
   int currentTab = 0;
     final List<Widget> screens = [
@@ -48,16 +54,16 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.transparent,
         elevation: 2,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate:MySearchDelegate(),
-              );
-            },
-            // color: Colors.black,
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.search),
+          //   onPressed: () {
+          //     showSearch(
+          //       context: context,
+          //       delegate:MySearchDelegate(),
+          //     );
+          //   },
+          //   // color: Colors.black,
+          // ),
           IconButton(
             icon: const Icon(Icons.notification_add),
             onPressed: () {
@@ -198,35 +204,35 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class MySearchDelegate extends SearchDelegate{
-  @override
-  Widget? buildLeading(BuildContext context) => IconButton(
-    onPressed: () => close(context, null),
-     icon: const Icon(Icons.arrow_back)
-     );
+// class MySearchDelegate extends SearchDelegate{
+//   @override
+//   Widget? buildLeading(BuildContext context) => IconButton(
+//     onPressed: () => close(context, null),
+//      icon: const Icon(Icons.arrow_back)
+//      );
 
-  @override 
-  List<Widget>? buildActions(BuildContext context) => [
-    IconButton(
-      onPressed: () {
-        if (query.isEmpty){
-          close(context,null);
-        }else{
-          query = '';
-        }
+//   @override 
+//   List<Widget>? buildActions(BuildContext context) => [
+//     IconButton(
+//       onPressed: () {
+//         if (query.isEmpty){
+//           close(context,null);
+//         }else{
+//           query = '';
+//         }
         
-      },
-      icon: const Icon(Icons.clear),
-      )
-  ];
+//       },
+//       icon: const Icon(Icons.clear),
+//       )
+//   ];
 
-  @override 
-  Widget buildResults(BuildContext context) => Container();
+//   @override 
+//   Widget buildResults(BuildContext context) => Container();
 
-  @override 
-  Widget buildSuggestions(BuildContext context) => Container();
+//   @override 
+//   Widget buildSuggestions(BuildContext context) => Container();
 
-}
+// }
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({super.key});
