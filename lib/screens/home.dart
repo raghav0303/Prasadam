@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                       onMapCreated: (controller) {
                         setState(() {
                           _controller = controller;
-                          addMarker('test', currentLocation);
+                          // addMarker('test', currentLocation);
                         });
                       },
                       // markers: markers.toSet(),
@@ -138,27 +138,27 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  addMarker(String id, LatLng location) async {
-  //   var markerIcon = await BitmapDescriptor.fromAssetImage(
-  //       const ImageConfiguration(), 'assets/images/logo5_circle_cropped.png');
+  // addMarker(String id, LatLng location) async {
+  // //   var markerIcon = await BitmapDescriptor.fromAssetImage(
+  // //       const ImageConfiguration(), 'assets/images/logo5_circle_cropped.png');
 
-    // var url = ''; //url from where we will be fetching our image
-    // var bytes = (await NetworkAssetBundle(Uri().parse(url)).load(url)).buffer.asUint8List();
+  //   // var url = ''; //url from where we will be fetching our image
+  //   // var bytes = (await NetworkAssetBundle(Uri().parse(url)).load(url)).buffer.asUint8List();
 
-    var marker = Marker(
-      markerId: MarkerId(id),
-      position: location,
-      infoWindow: const InfoWindow(
-        title: 'Title of place',
-        snippet: 'Some description of the place',
-      ),
-      // icon: markerIcon,
-      // icon: BitmapDescriptor.fromBytes(bytes),
-    );
+  //   var marker = Marker(
+  //     markerId: MarkerId(id),
+  //     position: location,
+  //     infoWindow: const InfoWindow(
+  //       title: 'Title of place',
+  //       snippet: 'Some description of the place',
+  //     ),
+  //     // icon: markerIcon,
+  //     // icon: BitmapDescriptor.fromBytes(bytes),
+  //   );
 
-    _markers[id] = marker;
-    setState(() {});
-  }
+  //   _markers[id] = marker;
+  //   setState(() {});
+  // }
 }
 
 // class MapMarker {
