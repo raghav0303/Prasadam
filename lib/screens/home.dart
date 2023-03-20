@@ -1,16 +1,11 @@
+import 'dart:async';
 // import 'dart:html';
-import 'dart:math';
-
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prasadam/blocs/application_bloc.dart';
-// import 'package:prasadam/screens/home_screen.dart';
-// import 'package:flutter_map/flutter_map.dart';
-// import 'package:latlong2/latlong.dart' as latLng;
-
-import 'package:provider/provider.dart';
+import 'package:prasadam/screens/home_screen.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,194 +14,259 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+final LatLng raipur = LatLng(21.2514, 81.6296);
+final LatLng bhilai = LatLng(21.1938, 81.3509);
+final LatLng gwalior = LatLng(26.2124, 78.1772);
+late final currentLocation1;
+
 class _HomePageState extends State<HomePage> {
-  late final applicationBloc = Provider.of<ApplicationBloc>(context);
-  final currentLocation = LatLng(21.1938, 81.3509);
-  final CameraPosition _initialPosition = CameraPosition(
-    target: LatLng(21.1938, 81.3509),
-    zoom: 15,
-  );
-  GoogleMapController? _controller;
+  late final MapController _mapController;
+  double _rotation = 0;
 
-  Map<String, Marker> _markers = {};
-  // final List<Marker> markers = [];
 
-  // addMarker(coordinate){
-  //   int id = Random().nextInt(100);
-  //   setState(() {
-  //     markers.add(Marker(position: coordinate, markerId: MarkerId(id.toString())));
-  //   });
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _mapController = MapController();
+  }
 
-  // String location = 'Bhilai';
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: const Color.fromARGB(255, 33, 32, 32),
-//         title: const Text('Flutter MapBox'),
-//       ),
-//       body: Stack(
-//         children: [
-//           FlutterMap(
-//             options: MapOptions(
-//               minZoom: 5,
-//               maxZoom: 18,
-//               zoom: 13,
-//               center: latLng.LatLng(21.1938, 81.3509),
-//             ),
+  // late final applicationBloc = Provider.of<ApplicationBloc>(context);
+  // final currentLocation = LatLng(21.1938, 81.3509);
+  // final CameraPosition _initialPosition = CameraPosition(
+  //   target: LatLng(21.1938, 81.3509),
+  //   zoom: 15,
+  // );
+  // GoogleMapController? _controller;
+  //
+  // Map<String, Marker> _markers = {};
 
-//             nonRotatedChildren: [
-//               AttributionWidget.defaultWidget(
-//               source: 'OpenStreetMap contributors',
-//               onSourceTapped: null,
-//               ),
-//             ],
-//             children: [
+  void getCurrentPosition() async {
+    LocationPermission permission = await Geolocator.checkPermission();
 
-//             Column(
-//               children: [
-//                 Container(
-//                 width: 300,
-//                 child: TextField(
-//                 style: TextStyle(color: Colors.white, fontSize: 25),
-//                 decoration: InputDecoration(
-//                   hintText: 'Search another location...',
-//                   hintStyle: TextStyle(color: Colors.white, fontSize: 18.0),
-//                   prefixIcon: Icon(Icons.search, color: Colors.white),
-//                 ),
-//             )
-//             )
-//         ],
-//         ),
+    if(permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+      print("Permissions not given");
+      LocationPermission asked = await Geolocator.requestPermission();
+    }
+    else{
+      Position currentPosition = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best
+      );
+      print("Longitude: " + currentPosition.longitude.toString());
+      print("Latitude: " + currentPosition.latitude.toString());
+      currentLocation1 = LatLng(currentPosition.longitude, currentPosition.latitude);
+      // point = LatLng(currentPosition.longitude, currentPosition.latitude);
+    }
+  }
 
-//       TileLayer(
-//             urlTemplate: 'https://api.mapbox.com/styles/v1/raghavjoshi03/clalvihxb000514o68pjwdzby/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoicmFnaGF2am9zaGkwMyIsImEiOiJjbDJycW91c3cxd3dxM2Jrem1mczV3ZXRqIn0.YEIXcheELO9KHKgPjb7S8g',
-//             userAgentPackageName: 'com.example.app',
-//             additionalOptions: {
-//               'accessToken':'pk.eyJ1IjoicmFnaGF2am9zaGkwMyIsImEiOiJjbDJycW91c3cxd3dxM2Jrem1mczV3ZXRqIn0.YEIXcheELO9KHKgPjb7S8g',
-//               'id' : 'mapbox.satellite',
-//             }
-//         ),
-//     ],
-// )
-//         ],
-//       )
-//     );
-//   }
+  LatLng point = LatLng(49.5,-0.09);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: (applicationBloc.currentLocation == null)
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView(
-              children: [
-                TextField(
-                  decoration: InputDecoration(hintText: 'Search Location'),
-                ),
-                Container(
-                    height:300,
-                    child: GoogleMap(
-                      // initialCameraPosition: _initialPosition,
-                      initialCameraPosition: CameraPosition(
-                        target: LatLng(applicationBloc.currentLocation!.latitude,
-                        applicationBloc.currentLocation!.longitude
-                        ) 
-                        ),
-                      mapType: MapType.hybrid,
-                      myLocationEnabled: true,
-                      onMapCreated: (controller) {
-                        setState(() {
-                          _controller = controller;
-                          // addMarker('test', currentLocation);
-                        });
-                      },
-                      // markers: markers.toSet(),
-                      onTap: (coordinate) {
-                        _controller!
-                            .animateCamera(CameraUpdate.newLatLng(coordinate));
-                        // addMarker(coordinate);
-                      },
-                      markers: _markers.values.toSet(),
-                    )),
-              ],
+
+    final markers = <Marker>[
+      Marker(
+        width: 80,
+        height: 80,
+        point: raipur,
+        builder: (ctx) => Container(
+          key: const Key('blue'),
+          child: const FlutterLogo(),
+        ),
+      ),
+      Marker(
+        width: 80,
+        height: 80,
+        point: bhilai,
+        builder: (ctx) => const FlutterLogo(
+          key: Key('green'),
+          textColor: Colors.green,
+        ),
+      ),
+      Marker(
+        width: 80,
+        height: 80,
+        point: gwalior,
+        builder: (ctx) => Container(
+          key: const Key('purple'),
+          child: const FlutterLogo(textColor: Colors.purple),
+        ),
+      ),
+    ];
+
+    return Stack(
+      children: [
+        FlutterMap(
+          options: MapOptions(
+            // onTap: (p){
+            //   setState(() {
+            //     point = p;
+            //   });
+            // },
+            center: LatLng(49.5,-0.09),
+            zoom: 10.0
+        ),
+          children: [
+            TileLayer(
+              urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+              subdomains: ['a','b','c'],
             ),
+            MarkerLayer(
+              markers: [
+                Marker(
+                  width: 100.0,
+                  height: 100.0,
+                  point:
+                  point,
+                  builder: (ctx) => Icon(
+                    Icons.location_on,
+                    color:Colors.red,
+                  )
+                )
+              ],
+            )
+          ],
+    ),
+        Center(
+          child: ElevatedButton(
+            onPressed: () {
+              getCurrentPosition();
+            },
+            child: Text("Get current position"),
+          )
+        ),
+
+        MaterialButton(
+          onPressed: () {
+            _mapController.move(raipur, 18);
+          },
+          child: const Text('Raipur'),
+        ),
+        MaterialButton(
+          onPressed: () {
+            _mapController.move(bhilai, 5);
+          },
+          child: const Text('Bhilai'),
+        ),
+        MaterialButton(
+          onPressed: () {
+            _mapController.move(gwalior, 5);
+          },
+          child: const Text('Gwalior'),
+        ),
+        CurrentLocation(mapController: _mapController),
+      ],
     );
+    // return Scaffold(
+    //   body: (applicationBloc.currentLocation == null)
+    //       ? Center(
+    //     child: CircularProgressIndicator(),
+    //   )
+    //       : ListView(
+    //     children: [
+    //       TextField(
+    //         decoration: InputDecoration(hintText: 'Search Location'),
+    //       ),
+    //       Container(
+    //           height: 300,
+    //           child: GoogleMap(
+    //             // initialCameraPosition: _initialPosition,
+    //             initialCameraPosition: CameraPosition(
+    //                 target: LatLng(applicationBloc.currentLocation!.latitude,
+    //                     applicationBloc.currentLocation!.longitude
+    //                 )
+    //             ),
+    //             mapType: MapType.hybrid,
+    //             myLocationEnabled: true,
+    //             onMapCreated: (controller) {
+    //               setState(() {
+    //                 _controller = controller;
+    //                 // addMarker('test', currentLocation);
+    //               });
+    //             },
+    //             // markers: markers.toSet(),
+    //             onTap: (coordinate) {
+    //               _controller!
+    //                   .animateCamera(CameraUpdate.newLatLng(coordinate));
+    //               // addMarker(coordinate);
+    //             },
+    //             markers: _markers.values.toSet(),
+    //           )),
+    //     ],
+    //   ),
+    // );
   }
-
-  // addMarker(String id, LatLng location) async {
-  // //   var markerIcon = await BitmapDescriptor.fromAssetImage(
-  // //       const ImageConfiguration(), 'assets/images/logo5_circle_cropped.png');
-
-  //   // var url = ''; //url from where we will be fetching our image
-  //   // var bytes = (await NetworkAssetBundle(Uri().parse(url)).load(url)).buffer.asUint8List();
-
-  //   var marker = Marker(
-  //     markerId: MarkerId(id),
-  //     position: location,
-  //     infoWindow: const InfoWindow(
-  //       title: 'Title of place',
-  //       snippet: 'Some description of the place',
-  //     ),
-  //     // icon: markerIcon,
-  //     // icon: BitmapDescriptor.fromBytes(bytes),
-  //   );
-
-  //   _markers[id] = marker;
-  //   setState(() {});
-  // }
 }
 
-// class MapMarker {
-//   final String? image;
-//   final String? title;
-//   final String? address;
-//   final latLng.LatLng? location;
-//   final int? rating;
+class CurrentLocation extends StatefulWidget {
+  const CurrentLocation({
+    Key? key,
+    required this.mapController,
+  }) : super(key: key);
 
-//   MapMarker({
-//     required this.image,
-//     required this.title,
-//     required this.address,
-//     required this.location,
-//     required this.rating,
-//   });
-// }
+  final MapController mapController;
 
-// final mapMarkers = [
-//   MapMarker(
-//       image: 'assets/images/restaurant_1.jpg',
-//       title: 'Alexander The Great Restaurant',
-//       address: '8 Plender St, London NW1 0JT, United Kingdom',
-//       location: latLng.LatLng(21.196794, 81.303288),
-//       rating: 4),
-//   MapMarker(
-//       image: 'assets/images/restaurant_2.jpg',
-//       title: 'Mestizo Mexican Restaurant',
-//       address: '103 Hampstead Rd, London NW1 3EL, United Kingdom',
-//       location: latLng.LatLng(51.5090229, -0.2886548),
-//       rating: 5),
-//   MapMarker(
-//       image: 'assets/images/restaurant_3.jpg',
-//       title: 'The Shed',
-//       address: '122 Palace Gardens Terrace, London W8 4RT, United Kingdom',
-//       location: latLng.LatLng(51.5090215, -0.1959988),
-//       rating: 2),
-//   MapMarker(
-//       image: 'assets/images/restaurant_4.jpg',
-//       title: 'Gaucho Tower Bridge',
-//       address: '2 More London Riverside, London SE1 2AP, United Kingdom',
-//       location: latLng.LatLng(51.5054563, -0.0798412),
-//       rating: 3),
-//   MapMarker(
-//     image: 'assets/images/restaurant_5.jpg',
-//     title: 'Bill\'s Holborn Restaurant',
-//     address: '42 Kingsway, London WC2B 6EY, United Kingdom',
-//     location: latLng.LatLng(51.5077676, -0.2208447),
-//     rating: 4,
-//   ),
-// ];
+  @override
+  _CurrentLocationState createState() => _CurrentLocationState();
+}
+
+class _CurrentLocationState extends State<CurrentLocation> {
+  int _eventKey = 0;
+
+  IconData icon = Icons.gps_not_fixed;
+  late final StreamSubscription<MapEvent> mapEventSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    mapEventSubscription =
+        widget.mapController.mapEventStream.listen(onMapEvent);
+  }
+
+  @override
+  void dispose() {
+    mapEventSubscription.cancel();
+    super.dispose();
+  }
+
+  void setIcon(IconData newIcon) {
+    if (newIcon != icon && mounted) {
+      setState(() {
+        icon = newIcon;
+      });
+    }
+  }
+
+  void onMapEvent(MapEvent mapEvent) {
+    if (mapEvent is MapEventMove && mapEvent.id != _eventKey.toString()) {
+      setIcon(Icons.gps_not_fixed);
+    }
+  }
+
+  void _moveToCurrent() async {
+    _eventKey++;
+    // final location = Location();
+
+    try {
+      // final currentLocation = await location.getLocation();
+      final currentLocation = currentLocation1;
+      final moved = widget.mapController.move(
+        LatLng(currentLocation.latitude!, currentLocation.longitude!),
+        18,
+        id: _eventKey.toString(),
+      );
+
+      setIcon(moved ? Icons.gps_fixed : Icons.gps_not_fixed);
+    } catch (e) {
+      setIcon(Icons.gps_off);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(icon),
+      onPressed: _moveToCurrent,
+    );
+  }
+}

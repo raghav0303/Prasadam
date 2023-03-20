@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:prasadam/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:prasadam/blocs/application_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,15 +15,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ApplicationBloc(),
-      child: MaterialApp(
+    return MaterialApp(
       title: 'Prasadam',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: const SignInScreen(),
-    ),
-      );
+    );
   }
 }
