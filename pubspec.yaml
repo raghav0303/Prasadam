@@ -56,8 +56,10 @@ dependencies:
   meta: ^1.8.0
   collection: ^1.16.0
   flutter_osm_plugin: ^0.50.0-alpha.5
+  flutter_map_marker_cluster: any
 
-  
+
+
 
 dev_dependencies:
   flutter_test:

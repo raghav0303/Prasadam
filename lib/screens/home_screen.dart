@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:prasadam/main.dart';
 import 'package:prasadam/screens/home.dart';
 import 'package:prasadam/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ import 'package:prasadam/screens/notifications.dart';
 import 'package:prasadam/screens/contact_us.dart';
 
 import 'package:geolocator/geolocator.dart';
+
+import 'package:prasadam/screens/maps.dart';
 
 
 
@@ -30,14 +33,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int currentTab = 0;
     final List<Widget> screens = [
-      HomePage(),
+      MyHomePage(),
       FavouritesPage(),
       SubscriptionsPage(),
       UserPage()
     ];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = HomePage();
+  Widget currentScreen = MyHomePage();
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       minWidth: 40,
                       onPressed: () {
                         setState((){
-                          currentScreen = HomePage();
+                          currentScreen = MyHomePage();
                           currentTab = 0;
 
                         });
