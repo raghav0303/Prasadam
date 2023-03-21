@@ -48,6 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
       textConfirmPicker: "pick",
       initCurrentUserPosition: true,
     );
+
+    // mapController.dispose();
+
+    await mapController.changeLocation(p!);
   }
 
   @override
@@ -61,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
       controller:mapController,
       trackMyPosition: false,
       initZoom: 12,
-      minZoomLevel: 8,
+      minZoomLevel: 3,
       maxZoomLevel: 19,
       stepZoom: 1.0,
       userLocationMarker: UserLocationMaker(
