@@ -95,22 +95,22 @@ class SimpleOSM extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = useMapController(
-        initMapWithUserPosition: true
-    );
+    // final controller = useMapController(
+    //     initMapWithUserPosition: true
+    // );
     useMapIsReady(
-      controller: controller,
+      controller: mapController,
       mapIsReady: () async {
-        await controller.setZoom(zoomLevel: 15);
+        await mapController.setZoom(zoomLevel: 15);
       },
     );
 
     useEffect(() {
-      markers.forEach((marker) => controller.addMarker(marker));
-      // return () {
-      //   markers.forEach((marker) => controller.removeMarker(marker));
-      // };
-    }, [controller]);
+      markers.forEach((marker) => mapController.addMarker(marker));
+      return () {
+        markers.forEach((marker) => mapController.removeMarker(marker));
+      };
+    }, [mapController]);
 
     return Stack(
       children: [
@@ -168,6 +168,16 @@ class SimpleOSM extends HookWidget {
               locationPicker();
             },
             child: Text("Pick Location"),
+          ),
+        ),
+
+        Container(
+          alignment: Alignment.bottomLeft,
+          child: ElevatedButton(
+            onPressed: () {
+
+            },
+            child: Text("Nearby Messes"),
           ),
         )
       ],

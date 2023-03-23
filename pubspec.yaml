@@ -58,6 +58,10 @@ dependencies:
   flutter_map_marker_cluster: any
   osm_flutter_hooks: ^1.2.0
   flutter_osm_plugin: ^0.42.0
+  flutter_map_marker_popup: ^4.0.1
+  flutter_map_location_marker: ^5.2.1
+  syncfusion_flutter_maps: ^20.4.54
+  firebase_database: ^10.0.16
 
 
 
