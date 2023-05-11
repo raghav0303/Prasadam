@@ -5,6 +5,8 @@ import 'package:prasadam/screens/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:prasadam/screens/user.dart';
 //import 'package:prasadam/navigation.dart';
+import 'package:prasadam/screens/maps_home.dart';
+import 'package:prasadam/screens/welcome_screen.dart';
 
 import 'package:prasadam/screens/favourites.dart';
 import 'package:prasadam/screens/subscriptions.dart';
@@ -34,14 +36,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int currentTab = 0;
     final List<Widget> screens = [
-      MyHomePage(),
+      WelcomeScreen(),
       FavouritesPage(),
       SubscriptionsPage(),
-      UserPage()
+      MyMapPage()
     ];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = MyHomePage();
+  Widget currentScreen = WelcomeScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       minWidth: 40,
                       onPressed: () {
                         setState((){
-                          currentScreen = MyHomePage();
+                          currentScreen = WelcomeScreen();
                           currentTab = 0;
 
                         });
@@ -178,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       minWidth: 40,
                       onPressed: () {
                         setState((){
-                          currentScreen = UserPage();
+                          currentScreen = MyMapPage();
                           currentTab = 3;
 
                         });
@@ -188,11 +190,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.person,
+                            Icons.map_rounded,
                             color: currentTab == 3? Colors.black : Colors.grey,
                             ),
                             Text(
-                              'Profile',
+                              'Map',
                               style: TextStyle(color: currentTab == 3? Colors.black : Colors.grey)
                             )
                         ] 
@@ -343,6 +345,17 @@ class NavigationDrawer extends StatelessWidget {
     //     ));
     //   },
     // ),
+
+        ListTile(
+          leading: const Icon(Icons.person),
+          title: const Text('Profile'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.of(context).push(MaterialPageRoute(
+              builder:(context) => const UserPage(),
+            ));
+          },
+        ),
     
     ListTile(
       leading: const Icon(Icons.contact_page),

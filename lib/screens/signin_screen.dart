@@ -5,6 +5,7 @@ import 'package:prasadam/screens/reset_password.dart';
 import 'package:prasadam/screens/signup_screen.dart';
 import 'package:prasadam/utils/color_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -52,7 +53,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   height: 5,
                 ),
                 forgetPassword(context),
-                firebaseUIButton(context, "Sign In", () {
+                firebaseUIButton(context, "Sign In", () async {
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(
                           email: _emailTextController.text,
